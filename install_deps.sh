@@ -2,6 +2,8 @@ echo updating repositary
 sudo apt-get update
 echo imstalling mongodb
 sudo apt-get install mongodb -y
+echo updating rpi firmware
+sudo rpi-update
 echo installing quickwire-gpio-admin
 cd dependencies
 tar xvf quick2wire-gpio-admin.tar.gz
