@@ -1,3 +1,7 @@
+echo updating repositary
+sudo apt-get update
+echo imstalling mongodb
+sudo apt-get install mongodb -y
 echo installing quickwire-gpio-admin
 tar xvf quick2wire-gpio-admin.tar.gz
 cd quick2wire-gpio-admin
