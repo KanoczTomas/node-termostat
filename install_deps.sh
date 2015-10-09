@@ -4,6 +4,9 @@ echo imstalling mongodb
 sudo apt-get install mongodb -y
 echo updating rpi firmware
 sudo rpi-update
+echo *** installing nodejs
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+sudo dpkg -i node_latest_armhf.deb
 echo installing quickwire-gpio-admin
 cd dependencies
 tar xvf quick2wire-gpio-admin.tar.gz
