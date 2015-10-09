@@ -7,7 +7,7 @@
     "url": ""
   },
   "scripts": {
-    "preinstall": "dependencies/install_deps.sh",
+    "preinstall": "install_deps.sh",
     "start": "nodemon -i js/app.js -i js/route.js -i static/ -i js/controllers -V server.js",
     "bundle": "browserify -t cssify js/app.js -o static/js/bundle.js",
     "watch": "watchify -t cssify js/app.js -o static/js/bundle.js",
