@@ -1,0 +1,81 @@
+<div class="container">
+<h1>Sprav citanie priamo stavu pinu pri get state switch a manual switchu</h1>
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Mode<span class="pull-right label" ng-class="cssHelper(true,'auto','label-info|label-default')">{{translateTrueFalseHelper('auto','Auto|Manual')}}</span></h3>
+   </div>
+   <div class="panel-body">
+     State:
+     <span class="btn-group pull-right"> 
+      <button class="btn btn-default" ng-class="cssHelper(true,'auto')" ng-click="setHelper(true,'auto')">Auto</button>
+      <button class="btn btn-default" ng-class="cssHelper(false,'auto')" ng-click="setHelper(false,'auto')">Manual</button>
+     </span>
+   </div>
+ </div>
+
+
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Temperature<span class="pull-right label" ng-class="cssHelper(true,'termostatSwitch','label-success|label-danger')">{{output.temperature| number:2}} °C</span></h3>
+   </div>
+   <div class="panel-body">
+     Switch:
+     <span class="btn-group pull-right"> 
+      <button class="btn btn-default" ng-class="output.auto ? cssHelper(true, 'auto', 'disabled|') : cssHelper(true,'termostatSwitch')"  ng-click="output.auto ? '' : setHelper(true,'termostatSwitch')">On</button>
+      <button class="btn btn-default" ng-class="output.auto ? cssHelper(true, 'auto', 'disabled|') : cssHelper(false,'termostatSwitch')" ng-click="output.auto ? '' : setHelper(false,'termostatSwitch')">Off</button>
+     </span>
+   </div>
+ </div>
+
+
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Termostat<span class="pull-right label label-primary">{{output.termostat | number:2}} °C</span></h3>
+   </div>
+   <div class="panel-body">
+     Change:     
+     <span class="btn-group pull-right"> 
+      <button class="btn btn-default" ng-click="changeValueHelper('termostat','+')"><span class="glyphicon glyphicon-menu-up"></span></button>
+      <button class="btn btn-default" ng-click="changeValueHelper('termostat','-')"><span class="glyphicon glyphicon-menu-down"></span></button>
+     </span>
+   </div>
+ </div>
+
+
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Hysteresis<span class="pull-right label label-primary">{{output.hysteresis | number:2}} °C</span></h3>
+   </div>
+   <div class="panel-body">
+     Change:     
+     <span class="btn-group pull-right"> 
+      <button class="btn btn-default" ng-click="changeValueHelper('hysteresis','+')"><span class="glyphicon glyphicon-menu-up"></span></button>
+      <button class="btn btn-default" ng-click="changeValueHelper('hysteresis','-')"><span class="glyphicon glyphicon-menu-down"></span></button>
+     </span>
+   </div>
+ </div>
+
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Humidity<span class="pull-right label label-primary">{{output.humidity | number:2}} %</span></h3>
+   </div>
+ </div>
+
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <h3 class="panel-title">Air Conditioning<span class="pull-right label" ng-class="cssHelper(true,'manualSwitch','label-success|label-danger')">{{translateTrueFalseHelper('manualSwitch','On|Off')}}</span></h3>
+   </div>
+   <div class="panel-body">
+     Switch:     
+     <span class="btn-group pull-right"> 
+      <button class="btn btn-default" ng-class="cssHelper(true,'manualSwitch')" ng-click="setHelper(true,'manualSwitch')">On</button>
+      <button class="btn btn-default" ng-class="cssHelper(false,'manualSwitch')" ng-click="setHelper(false,'manualSwitch')">Off</button>
+     </span>
+   </div>
+ </div>
+<pre>{{output | json}}</pre>
+<pre>{{ize | json}}</pre>
+</div>
+
+
+

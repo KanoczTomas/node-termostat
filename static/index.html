@@ -1,0 +1,33 @@
+ <!DOCTYPE html>
+<html lang="sk" ng-app="test">
+<head>
+  <title>Termostat</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./js/bundle.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Termostat@Sentinel</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
+        <li ui-sref-active="active"><a ui-sref="about">About</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ui-sref-active="active"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<ui-view>Loading UI components, please by patient ... this a raspberry pi, not a mercedes, just a skoda 120L :)</ui-view>
+</body>
+</html>
