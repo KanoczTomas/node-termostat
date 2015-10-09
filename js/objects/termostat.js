@@ -11,13 +11,34 @@ function Termostat(){
   this.manualSwitch= false;//used to switch pin2 manualy
   this.termostatSwitch = false; //used switch pin 1 manualy/automatically
   this.manualSwitchPin = 13;//pin used in physical order 
+  this.manualSwitchPinLock = false;//if we are doing an operation with the pin, we need to lock it
   this.termostatSwitchPin = 11; //pin used in physical order 
+  this.termostatSwitchPinLock = false; //if we are doing an operation with the pin, we need to lock it
 }
 
 Termostat.prototype = new EventEmitter();
 
 Termostat.prototype.init = function(){//init returns json for the api/setup to use it as response
   var self = this;
+  
+  gpio.init(self.manualSwitchPin)
+  .then(function(){
+    return gpio.init(self.termostatSwitchPin)
+  })
+  .then(function(){
+    console.log('pins set up for use');
+  })
+  .error(function(array){
+    var err = array[0];
+    var pin = array[1];
+    console.error(err);
+    console.log('found error on pin ' + pin + ' retryint init');
+    gpio.close(pin)
+    .then(function(){
+      self.init();
+    });
+  });
+
   TermostatModel.find({}, function(err, out){
     if(err) throw err;
 
@@ -60,6 +81,22 @@ Termostat.prototype.init = function(){//init returns json for the api/setup to u
   });
 };
 
+Termostat.prototype.close = function (){
+  var self = this;
+  gpio.close(self.termostatSwitchPin)
+  .then(function(){
+    gpio.close(self.manualSwitchPin)
+    .then(function(){
+      console.log('all pins closed, ready to shut down');
+    });
+  })
+};
+
+function variableChangeHelper(var1, var2){//return true if variable changed, else false
+  if(var1 === var2)return false;
+  return true;
+}
+
 
 Termostat.prototype.getMode = function(){
   return this.auto;
@@ -77,10 +114,12 @@ Termostat.prototype.getHumidity = function(){
   return this.humidity;
 }
 Termostat.prototype.getManualSwitch = function(){
-  return this.manualSwitch;
+  //return this.manualSwitch;
+  return gpio.read(this.manualSwitchPin);
 }
 Termostat.prototype.getTermostatSwitch = function(){
-  return this.termostatSwitch;
+  //return this.termostatSwitch;
+  return gpio.read(this.termostatSwitchPin);
 }
 Termostat.prototype.getTermostatId = function(){
   return this._id;
@@ -117,27 +156,31 @@ Termostat.prototype.setHumidity = function(humidity){
   this.humidity = Number(humidity);
 }
 Termostat.prototype.setManualSwitch = function(manualSwitch){
-  //if(manualSwitch === 'true') this.manualSwitch = true;
-  //else if(manualSwitch === 'false')this.manualSwitch = false;
-  //else return new Error('the atribute value is not in correct format');
-  //mongodbWriteHelper(this,'manualSwitch');
-  if(manualSwitch === 'true') manualSwitch = true;
-  else if(manualSwitch === 'false')manualSwitch = false;
-  else return new Error('the atribute value is not in correct format');
-  gpio.write(this.manualSwitchPin, manualSwitch)
-  .then(function(){
-    this.manualSwitch = gpio.read(this.manualSwitchPin);
-    debugger;
-  });
+  if(variableChangeHelper(this.manualSwitch, manualSwitch)){
+    if(manualSwitch === 'true') this.manualSwitch = true;
+    else if(manualSwitch === 'false')this.manualSwitch = false;
+    else return new Error('the atribute value is not in correct format');
+    mongodbWriteHelper(this,'manualSwitch');
+    gpio.write(this.manualSwitchPin, this.manualSwitch);
+  }
+//  if(manualSwitch === 'true') manualSwitch = true;
+//  else if(manualSwitch === 'false')manualSwitch = false;
+//  else return new Error('the atribute value is not in correct format');
+//  gpio.write(this.manualSwitchPin, manualSwitch)
+//  .then(function(){
+//    this.manualSwitch = gpio.read(this.manualSwitchPin);
+//    debugger;
+//  });
 }
 
 Termostat.prototype.setTermostatSwitch = function(termostatSwitch){
-  if(termostatSwitch === 'true') this.termostatSwitch = true;
-  else if(termostatSwitch === 'false')this.termostatSwitch = false;
-  else return new Error('the atribute value is not in correct format');
-  mongodbWriteHelper(this,'termostatSwitch');
-  gpio.write(this.termostatSwitchPin, this.termostatSwitch);
-  this.termostatSwitch = gpio.read(this.termostatSwitchPin);
+  if(variableChangeHelper(this.termostatSwitch,termostatSwitch)){
+    if(termostatSwitch === 'true') this.termostatSwitch = true;
+    else if(termostatSwitch === 'false')this.termostatSwitch = false;
+    else console.error( new Error('the atribute value is not in correct format'));
+    mongodbWriteHelper(this,'termostatSwitch');
+    gpio.write(this.termostatSwitchPin, this.termostatSwitch);
+  }
 }
 
 module.exports = Termostat;

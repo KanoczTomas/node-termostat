@@ -29,11 +29,15 @@
     "node-dht-sensor": "0.0.8",
     "pi-gpio": "0.0.8"
   },
+  "browser": {
+    "bootstrap": "./node_modules/bootstrap/dist/js/bootstrap.js"
+  },
   "devDependencies": {
     "browserify": "^11.2.0",
+    "browserify-shim": "^3.8.10",
     "cssify": "^0.7.0",
-    "watchify": "^3.4.0",
-    "uglifyjs": "^2.4.10"
+    "uglifyjs": "^2.4.10",
+    "watchify": "^3.4.0"
   },
   "optionalDependencies": {},
   "engines": {

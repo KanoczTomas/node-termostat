@@ -15,6 +15,11 @@ mongoose.connect(config.database);
 var termostat = new Termostat();
 termostat.init();
 
+process.on('SIGINT',function(){
+  termostat.close();
+  process.exit();
+});
+
 app.use(morgan('dev'));
 app.use(compress());
 app.use(bodyParser.json());
@@ -42,6 +47,19 @@ console.log('server running');
 app.get('/api/state', function(req, res){
   res.json(termostat);
 });
+
+setInterval(function(){
+  termostat.getTermostatSwitch()
+  .then(function(out){
+    termostat.termostatSwitch = out;
+    return termostat.getManualSwitch();
+  })
+  .then(function(out){
+    termostat.manualSwitch = out;
+    console.log('finished reading real values');
+  });
+  console.log('reading real values');
+},2000);
 
 function resPost(url,object,setMethod){
   app.post('/api/' + url + '/:value', function(req, res){
