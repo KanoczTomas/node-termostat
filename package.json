@@ -2,12 +2,12 @@
   "author": "Tomas Kanocz <tomas.kanocz@cnl.sk>",
   "name": "termostat",
   "description": "termostat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "url": ""
   },
   "scripts": {
-    "preinstall": "bash install_deps.sh",
+    "preinstall": "dependencies/install_deps.sh",
     "start": "nodemon -i js/app.js -i js/route.js -i static/ -i js/controllers -V server.js",
     "bundle": "browserify -t cssify js/app.js -o static/js/bundle.js",
     "watch": "watchify -t cssify js/app.js -o static/js/bundle.js",
