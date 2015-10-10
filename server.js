@@ -90,7 +90,7 @@ child.stdout.on('data', function(data){
   }
   if(humidity != termostat.getHumidity()){
     termostat.setHumidity(humidity);
-    termostat.emit('humidityChange');
+    //termostat.emit('humidityChange'); //- not using humidity, but left as a place holder
   }
 });
 
