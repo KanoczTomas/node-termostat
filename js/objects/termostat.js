@@ -124,6 +124,13 @@ Termostat.prototype.getTermostatSwitch = function(){
   //return this.termostatSwitch;
   return gpio.read(this.termostatSwitchPin);
 }
+
+Termostat.prototype.getManualSwitchValue = function(){
+  return this.manualSwitch;
+}
+Termostat.prototype.getTermostatSwitchValue = function(){
+  return this.termostatSwitch;
+}
 Termostat.prototype.getTermostatId = function(){
   return this._id;
 }
@@ -180,6 +187,7 @@ Termostat.prototype.setManualSwitch = function(manualSwitch){
 }
 
 Termostat.prototype.setTermostatSwitch = function(termostatSwitch){
+debugger;
   if(variableChangeHelper(this.termostatSwitch,termostatSwitch)){
     console.log('this is inside set: ' + termostatSwitch);
     if(typeof(termostatSwitch) === 'boolean') this.termostatSwitch = termostatSwitch;

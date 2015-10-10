@@ -14,5 +14,5 @@ What still needs to be done:
 * need to document how to set up confif.txt (sample file included to the commit)
 * bootstrap is browserified through a transform & url, want it to be loaded entirely from ghe device and not from web
 * need to add maximum/minimum value sanitiser for termostat and hystereses
-* need to make sure when setting the termostat it is not skipping between values = read from the server only after set
+* need to make sure when setting the termostat it is not skipping between values = read from the server only after set add the api tombe able to pull values separately, not the whole state ...  -- done
 * no idea right now :)

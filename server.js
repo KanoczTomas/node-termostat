@@ -28,21 +28,19 @@ app.listen(5000);
 
 console.log('server running');
 
-//function resGet(url,object,getMethod){
-//  app.get('/api/' + url, function(req, res){
-//    res.json(object[getMethod]());
-//  });
-//}
+function resGet(url,object,getMethod){
+  app.get('/api/' + url, function(req, res){
+    res.json(object[getMethod]());
+  });
+}
 
-//resGet('mode',termostat,'getMode');
-//resGet('temperature',termostat,'getTemperature');
-//resGet('termostat',termostat,'getTermostat');
-//resGet('hysteresis',termostat,'getHysteresis');
-//resGet('humidity',termostat,'getHumidity');
-//resGet('manualSwitch',termostat,'getManualSwitch');
-//resGet('termostatSwitch',termostat,'getTermostatSwitch');
-//resGet('id',termostat,'getTermostatId');
-//resGet('init',termostat,'init');
+resGet('mode',termostat,'getMode');
+resGet('temperature',termostat,'getTemperature');
+resGet('termostat',termostat,'getTermostat');
+resGet('hysteresis',termostat,'getHysteresis');
+resGet('humidity',termostat,'getHumidity');
+resGet('manualSwitch',termostat,'getManualSwitchValue');
+resGet('termostatSwitch',termostat,'getTermostatSwitchValue');
 
 app.get('/api/state', function(req, res){
   res.json(termostat);
@@ -56,9 +54,7 @@ setInterval(function(){
   })
   .then(function(out){
     termostat.manualSwitch = out;
-    console.log('finished reading real values');
   });
-  console.log('reading real values');
 },2000);
 
 function resPost(url,object,setMethod){

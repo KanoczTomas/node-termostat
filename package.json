@@ -10,7 +10,7 @@
     "preinstall": "./install_deps.sh",
     "start": "nodemon -i js/app.js -i js/route.js -i static/ -i js/controllers -V server.js",
     "bundle": "browserify -t cssify js/app.js -o static/js/bundle.js",
-    "watch": "watchify -t cssify js/app.js -o static/js/bundle.js",
+    "watch": "watchify -v -t cssify js/app.js -o static/js/bundle.js",
     "minify": "browserify -t cssify js/app.js | uglifyjs > static/js/bundle.js"
   },
   "main": "server.js",

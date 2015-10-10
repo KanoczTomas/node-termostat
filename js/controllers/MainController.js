@@ -1,29 +1,34 @@
 module.exports = [ '$scope', '$http', '$interval',  function($scope, $http, $interval){
-  //var output = {};
-  //function helper(url){
-  //  $http.get('/api/' + url)
-  //  .success(function(res){
-  //    output[url] = res;
-  //  });
-  //}
+
   $scope.output = {};
-  function refresh(){
-    //helper('mode');
-    //helper('temperature');
-    //helper('termostat');
-    //helper('hysteresis');
-    //helper('humidity');
-    //helper('manualSwitch');
-    //helper('termostatSwitch');
-    $http.get('/api/state')
+  function helper(url){
+    $http.get('/api/' + url)
     .success(function(res){
-      $scope.output = res;
+      $scope.output[url] = res;
     });
+  }
+  function refresh(what){
+    if(what === undefined){
+      $http.get('/api/state')
+      .success(function(res){
+        $scope.output = res;
+      });
+    }
+    else{
+      //helper('mode');
+      helper('temperature');
+      //helper('termostat');
+      //helper('hysteresis');
+      helper('humidity');
+      //helper('manualSwitch');
+      //helper('termostatSwitch');
+    }
   }
   
   refresh();
   $interval(function(){
-    refresh();
+    refresh('temperature');
+    refresh('humidity');
   },2000);
 
   $scope.cssHelper = function (input, varToCheck, cssClass){ //checks input to the internal state, if the same will return the css to aply on element
@@ -36,7 +41,7 @@ module.exports = [ '$scope', '$http', '$interval',  function($scope, $http, $int
     $scope.output[varToSet] = input;
     $http.post('/api/' + varToSet + '/' + String(input))
     .success(function(){
-      refresh();
+      refresh(varToSet);
     });
   };
   
