@@ -149,7 +149,7 @@ Termostat.prototype.setMode = function(mode){
   else if(mode === 'false')this.auto = false;
   else return new Error('the atribute value is not in correct format');
   mongodbWriteHelper(this,'auto');
-  control(self);
+  control(this);
 };
 Termostat.prototype.setTemperature = function(temperature){
   this.temperature = Number(temperature);
@@ -157,6 +157,7 @@ Termostat.prototype.setTemperature = function(temperature){
 Termostat.prototype.setTermostat = function(termostat){
   this.termostat = Number(termostat);
   mongodbWriteHelper(this,'termostat');
+  control(this);
 }
 Termostat.prototype.setHysteresis = function(hysteresis){
   this.hysteresis = Number(hysteresis);
@@ -187,7 +188,6 @@ Termostat.prototype.setManualSwitch = function(manualSwitch){
 }
 
 Termostat.prototype.setTermostatSwitch = function(termostatSwitch){
-debugger;
   if(variableChangeHelper(this.termostatSwitch,termostatSwitch)){
     console.log('this is inside set: ' + termostatSwitch);
     if(typeof(termostatSwitch) === 'boolean') this.termostatSwitch = termostatSwitch;

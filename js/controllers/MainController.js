@@ -15,11 +15,12 @@ module.exports = [ '$scope', '$http', '$interval',  function($scope, $http, $int
       });
     }
     else{
+      helper(what);
       //helper('mode');
-      helper('temperature');
+      //helper('temperature');
       //helper('termostat');
       //helper('hysteresis');
-      helper('humidity');
+      //helper('humidity');
       //helper('manualSwitch');
       //helper('termostatSwitch');
     }
@@ -29,6 +30,8 @@ module.exports = [ '$scope', '$http', '$interval',  function($scope, $http, $int
   $interval(function(){
     refresh('temperature');
     refresh('humidity');
+    if($scope.output.auto) refresh('termostatSwitch');
+    
   },2000);
 
   $scope.cssHelper = function (input, varToCheck, cssClass){ //checks input to the internal state, if the same will return the css to aply on element
