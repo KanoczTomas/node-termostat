@@ -12,9 +12,7 @@ function Termostat(){
   this.manualSwitch= false;//used to switch pin2 manualy
   this.termostatSwitch = false; //used switch pin 1 manualy/automatically
   this.manualSwitchPin = 13;//pin used in physical order 
-  this.manualSwitchPinLock = false;//if we are doing an operation with the pin, we need to lock it
   this.termostatSwitchPin = 11; //pin used in physical order 
-  this.termostatSwitchPinLock = false; //if we are doing an operation with the pin, we need to lock it
   this.flipable = 0; //helper variable for auto mode -1 below treshold and hystereses, 0 between, 1 above
 }
 
@@ -116,6 +114,14 @@ Termostat.prototype.getHysteresis = function(){
 Termostat.prototype.getHumidity = function(){
   return this.humidity;
 }
+
+Termostat.prototype.getManualSwitchPin = function(){
+  return this.manualSwitchPin;
+}
+Termostat.prototype.getTermostatSwitchPin = function(){
+  return this.termostatSwitchPin;
+}
+
 Termostat.prototype.getManualSwitch = function(){
   //return this.manualSwitch;
   return gpio.read(this.manualSwitchPin);
