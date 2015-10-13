@@ -123,7 +123,6 @@ Termostat.prototype.getTermostatSwitchPin = function(){
 }
 
 Termostat.prototype.getManualSwitch = function(){
-  //return this.manualSwitch;
   return gpio.read(this.manualSwitchPin);
 }
 Termostat.prototype.getTermostatSwitch = function(){
