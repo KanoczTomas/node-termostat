@@ -1,0 +1,7 @@
+node_modules
+pi-gpio.js
+spawn.js
+static/js/bundle.js
+*.swp
+fix_mongodb.sh
+tests/npm-debug.log
