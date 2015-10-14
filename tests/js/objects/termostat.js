@@ -71,72 +71,6 @@ beforeEach(function(){
         termostat.getTermostatSwitchPin().should.be.equal(32).and.be.a.Number();
       });
   });
-  describe('these get methods read real values from pins and not atribute values', function(){
-    test_pin_manual = 11;
-    test_pin_termostat = 13;
-    beforeEach(function(done){
-      gpio.open(test_pin_manual, 'out', function(){ 
-        gpio.open(test_pin_termostat, 'out', function(){
-          termostat.manualSwitchPin = test_pin_manual;
-          termostat.termostatSwitchPin = test_pin_termostat;
-	  gpio.write(test_pin_manual, 1, function(){
-	    gpio.write(test_pin_termostat, 1, function(){
-	      done();
-	    });
-	  });
-	});
-      });
-    });
-    afterEach(function(done){
-      gpio.close(test_pin_manual, function(){
-        gpio.close(test_pin_termostat, done);
-      });
-    });
-    describe('getManualSwitch()',function(done){
-      it('should return true if pin set Off = is the led Off?(yes)', function(done){
-        gpio.write(test_pin_manual,0, function(){
-	  termostat.getManualSwitch()
-	  .then(function(out){
-	    out.should.be.true();
-	    done();
-	  })
-	  .done(null,done);
-	});
-      });
-      it('should return false if pin set On = is the led Off?(no)', function(done){
-        gpio.write(test_pin_manual, 1, function(){
-	  termostat.getManualSwitch()
-	  .then(function(out){
-	    out.should.be.false();
-	    done();
-	  })
-	  .done(null, done);
-	});
-      });
-    });
-    describe('getTermostatSwitch()',function(done){
-      it('should return true if pin set Off = is the led Off?(yes)', function(done){
-        gpio.write(test_pin_termostat,0, function(){
-	  termostat.getTermostatSwitch()
-	  .then(function(out){
-	    out.should.be.true();
-	    done();
-	  })
-	  .done(null,done);
-	});
-      });
-      it('should return false if pin set On = is the led Off?(no)', function(done){
-        gpio.write(test_pin_termostat, 1, function(){
-	  termostat.getTermostatSwitch()
-	  .then(function(out){
-	    out.should.be.false();
-	    done();
-	  })
-	  .done(null, done);
-	});
-      });
-    });
-  });
   describe('getManualSwitchValue', function(){
     it('should return value of manualSwitch atribute', function(){
       termostat.getManualSwitchValue().should.be.false();
@@ -157,5 +91,22 @@ beforeEach(function(){
       termostat._id = 55;
       termostat.getTermostatId().should.be.equal(55);
     });
+  });
+});
+
+describe('These functions feturn real states of pins, not object atributes', function(){
+  test_pin = 15;
+  termostat.manualSwitchPin = test_pin;
+  beforeEach(function(done){
+    gpio.getDirection(test_pin, function(err, out){
+      if(err) gpio.open(test_pin, 'out', done);
+      else done();
+    });
+  });
+  afterEach(function(done){
+    gpio.close(test_pin, done);
+  });
+  it('should have termostat.manualSwitchPin set to ' + test_pin, function(done){
+    termostat.getManualSwitchPin().should.be.equal(test_pin);
   });
 });
