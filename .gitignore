@@ -3,5 +3,6 @@ pi-gpio.js
 spawn.js
 static/js/bundle.js
 *.swp
+*.swo
 fix_mongodb.sh
 tests/npm-debug.log
