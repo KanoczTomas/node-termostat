@@ -21,7 +21,7 @@ describe('gpio tests', function(){
     });
     it('should return an Array [err,pin] upon failure', function(done){
       var tmp = process.stderr.write;
-      process.stderr.write = function(){};
+      process.stderr.write = function(){};//the pi-gpio library is talking too much, silencing it
       gpio.init(test_pin)
       .then(function(){
         var tmp = 'this should never be executed';
