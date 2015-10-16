@@ -28,10 +28,11 @@ module.exports = {
     });
   },
   read: function(pin){
+    var self = this;
     return new Promise(function(resolve, reject){
       gpio.read(pin, function( err, out){
         if(err) reject(err);
-        resolve(!Boolean(out));
+        resolve(self.inverse ? !Boolean(out) : Boolean(out));
       });
     });
   },

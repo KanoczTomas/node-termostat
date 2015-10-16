@@ -77,9 +77,42 @@ describe('gpio tests', function(){
   });
 
   describe('#read()', function(){
-    it('should really read the pin when resolved');
-    it('inverse logic should work');
-    it('should throw an error when unable to read and be rejected');
+    it('should really read the pin when resolved', function(done){
+      piGpio.write(test_pin, 0, function(err){
+        should.not.exist(err);
+        gpio.read(test_pin).should.be.fulfilled()
+        .then(function(out){
+	  out.should.be.equal(true);
+	  done();
+        })
+        .done(null, done);
+      });
+    });
+
+    it('inverse logic should work', function(done){
+      gpio.inverse = false;
+      piGpio.write(test_pin, 0, function(err){
+        should.not.exist(err);
+	gpio.read(test_pin).should.be.fulfilled()
+	.then(function(out){
+	  should.exist(out)
+	  out.should.equal(false);
+	  gpio.inverse = true;
+	  done();
+	})
+	.done(null, done);
+      });
+    });
+    it('should throw an error when unable to read and be rejected', function(done){
+      gpio.read(11).should.be.rejected();
+      gpio.read(11)
+      .catch(function(err){
+        should.exist(err);
+	err.should.be.Error();
+	done();
+      })
+      .done(null, done);
+    });
   });
 
   describe('#close()', function(){
