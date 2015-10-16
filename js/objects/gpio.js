@@ -19,8 +19,9 @@ module.exports = {
     });
   },
   write: function(pin,state){
+    var self = this;
     return new Promise(function(resolve, reject){
-      gpio.write(pin , state ? 0 : 1, function(err){
+      gpio.write(pin , self.inverse ? Number(!state) : Number(state), function(err){
         if(err) reject(err);
         resolve();
       });
@@ -33,5 +34,6 @@ module.exports = {
         resolve(!Boolean(out));
       });
     });
-  }
+  },
+  inverse: true
 }
