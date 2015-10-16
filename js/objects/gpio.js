@@ -14,7 +14,7 @@ module.exports = {
     return new Promise(function (resolve, reject){
       gpio.close(pin, function(err){
         if(err) reject(err);
-	resolve();
+        resolve();
       });
     });
   },

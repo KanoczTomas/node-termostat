@@ -7,6 +7,15 @@ var mute = require('mute');
 
 describe('gpio tests', function(){
   test_pin = 13;
+  before(function(done){
+    piGpio.getDirection(test_pin, function(err, out){
+      if(err) done();
+      else {
+        piGpio.close(test_pin);
+	done();
+      }
+    });
+  });
   describe('#init()', function(){
     it('should really open the pin when resolved', function(done){
       gpio.init(test_pin).should.be.a.Promise().and.be.fulfilled()
@@ -116,13 +125,32 @@ describe('gpio tests', function(){
   });
 
   describe('#close()', function(){
-    test_pin = 13;
-    it('should really close the pin when resolved');//, function(done){
-    //});
-    it('should return error if can not close pin and be rejected');//, function(done){
-    //});
-  });
-  after(function(){
-    piGpio.close(test_pin);
+    it('should really close the pin when resolved', function(done){
+      var tmp = process.stderr.write;
+      process.stderr.write = function(){};
+      gpio.close(test_pin).should.be.fulfilled()
+      .then(function(){
+	piGpio.read(test_pin, function(err){
+	  should.exist(err);
+	  err.should.be.an.Error();
+	  done();
+	  process.stderr.write = tmp;
+	});
+      })
+      .done(null, done);
+    });
+    it('should return error if can not close pin and be rejected', function(done){
+      var tmp = process.stderr.write;
+      process.stderr.write = function(){};
+      gpio.close(test_pin).should.be.rejected();
+      gpio.close(test_pin)
+      .catch(function(err){
+        should.exist(err);
+	err.should.be.an.Error();
+	done();
+	process.stderr.write = tmp;
+      })
+      .done(null, done);
+    });
   });
 });
