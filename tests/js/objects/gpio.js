@@ -48,7 +48,7 @@ describe('gpio tests', function(){
   });
 
   describe('#write()', function(){
-    it('should really write to the pin when resolved', function(done){
+    it('should really write true (remember by defalt we are inversed) to the pin when resolved', function(done){
       gpio.write(test_pin, true).should.be.fulfilled()
       .then(function(){
          piGpio.read(test_pin, function(err,out){
@@ -58,13 +58,36 @@ describe('gpio tests', function(){
 	 });
       }).done(null, done);
     });
-    it('inverse logic should work', function(done){
+    it('should really write false (remember by default we are inversed) to the pin when resolved', function(done){
+      gpio.write(test_pin, false).should.be.fulfilled()
+      .then(function(){
+         piGpio.read(test_pin, function(err,out){
+	   should.not.exist(err);
+	   out.should.be.equal(1);
+	   done();
+	 });
+      }).done(null, done);
+    });
+    it('should write true correctly when inversed flag unset', function(done){
       gpio.inverse = false;
       gpio.write(test_pin, true).should.be.fulfilled()
       .then(function(){
         piGpio.read(test_pin, function(err,out){
 	  should.not.exist(err);
 	  out.should.be.equal(1);
+	  done();
+          gpio.inverse = true;
+	});
+      })
+      .done(null, done);
+    });
+    it('should write false correctly when inversed flag unset', function(done){
+      gpio.inverse = false;
+      gpio.write(test_pin, false).should.be.fulfilled()
+      .then(function(){
+        piGpio.read(test_pin, function(err,out){
+	  should.not.exist(err);
+	  out.should.be.equal(0);
 	  done();
           gpio.inverse = true;
 	});
@@ -86,7 +109,7 @@ describe('gpio tests', function(){
   });
 
   describe('#read()', function(){
-    it('should really read the pin when resolved', function(done){
+    it('should really read the pin set to 0 as true when resolved (by default we are inversed)', function(done){
       piGpio.write(test_pin, 0, function(err){
         should.not.exist(err);
         gpio.read(test_pin).should.be.fulfilled()
@@ -97,8 +120,33 @@ describe('gpio tests', function(){
         .done(null, done);
       });
     });
+    it('should really read the pin set to 1 as false when resolved (by default we are inversed)', function(done){
+      piGpio.write(test_pin, 1, function(err){
+        should.not.exist(err);
+        gpio.read(test_pin).should.be.fulfilled()
+        .then(function(out){
+	  out.should.be.equal(false);
+	  done();
+        })
+        .done(null, done);
+      });
+    });
 
-    it('inverse logic should work', function(done){
+    it('should really read the pin set to 1 as true when inverse logic flag is off', function(done){
+      gpio.inverse = false;
+      piGpio.write(test_pin, 1, function(err){
+        should.not.exist(err);
+	gpio.read(test_pin).should.be.fulfilled()
+	.then(function(out){
+	  should.exist(out)
+	  out.should.equal(true);
+	  gpio.inverse = true;
+	  done();
+	})
+	.done(null, done);
+      });
+    });
+    it('should really read the pin set to 0 as false when inverse logic flag is off', function(done){
       gpio.inverse = false;
       piGpio.write(test_pin, 0, function(err){
         should.not.exist(err);
