@@ -32,10 +32,7 @@ describe('gpio tests', function(){
       var tmp = process.stderr.write;
       process.stderr.write = function(){};//the pi-gpio library is talking too much, silencing it
       gpio.init(test_pin).should.be.rejected()
-      .done(null, done);
-
-      gpio.init(test_pin)
-      .catch(function(err){
+      .then(function(err){
         should.exist(err);
 	err.should.be.an.Array();
 	err[0].should.be.an.Error();
@@ -96,10 +93,7 @@ describe('gpio tests', function(){
     });
     it('should be rejected and throw Error when unsuccessful', function(done){
       gpio.write(11, true).should.be.rejected()
-      .done(null, done);
-
-      gpio.write(11, true)
-      .catch(function(err){
+      .then(function(err){
         should.exist(err);
 	err.should.be.Error();
 	done();
@@ -161,9 +155,8 @@ describe('gpio tests', function(){
       });
     });
     it('should throw an error when unable to read and be rejected', function(done){
-      gpio.read(11).should.be.rejected();
-      gpio.read(11)
-      .catch(function(err){
+      gpio.read(11).should.be.rejected()
+      .then(function(err){
         should.exist(err);
 	err.should.be.Error();
 	done();
@@ -190,9 +183,8 @@ describe('gpio tests', function(){
     it('should return error if can not close pin and be rejected', function(done){
       var tmp = process.stderr.write;
       process.stderr.write = function(){};
-      gpio.close(test_pin).should.be.rejected();
-      gpio.close(test_pin)
-      .catch(function(err){
+      gpio.close(test_pin).should.be.rejected()
+      .then(function(err){
         should.exist(err);
 	err.should.be.an.Error();
 	done();
