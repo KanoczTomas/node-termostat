@@ -177,3 +177,27 @@ describe('These functions return a promise which when resolved returns real stat
     });
   });
 });
+
+describe('Set methods:', function(){
+  describe('#setMode()', function(){
+    it('should ');
+  });
+  describe('#setTemperature()', function(){
+    it('should ');
+  });
+  describe('#setTermostat()', function(){
+    it('should ');
+  });
+  describe('#setHysteresis()', function(){
+    it('should ');
+  });
+  describe('#setHumidity()', function(){
+    it('should ');
+  });
+  describe('#setManualSwitch()', function(){
+    it('should ');
+  });
+  describe('#setTermostatSwitch()', function(){
+    it('should ');
+  });
+});
