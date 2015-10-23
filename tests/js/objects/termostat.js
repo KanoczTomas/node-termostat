@@ -4,7 +4,7 @@ var gpio = require('../../../js/objects/gpio');
 
 termostat = new Termostat();
 
-describe('getMethods', function(){
+describe('Get methods:', function(){
 
 beforeEach(function(){
   termostat.auto = false;
@@ -180,24 +180,54 @@ describe('These functions return a promise which when resolved returns real stat
 
 describe('Set methods:', function(){
   describe('#setMode()', function(){
-    it('should ');
+    it('should set the mode properly and write the correct type');
+    it('should write the correct value to database');
   });
   describe('#setTemperature()', function(){
-    it('should ');
+    it('should set the temperature properly and have it in correct type');
+    it('should write the correct value to database');
   });
   describe('#setTermostat()', function(){
-    it('should ');
+    it('should set the termostat properly and have it in correct type');
+    it('should write the correct value to database');
   });
   describe('#setHysteresis()', function(){
-    it('should ');
+    it('should set the hysteresis properly and have it in correct type');
+    it('should write the correct value to database');
   });
   describe('#setHumidity()', function(){
-    it('should ');
+    it('should set the humidity properly and have it in correct type');
+    it('should write the correct value to database');
   });
   describe('#setManualSwitch()', function(){
-    it('should ');
+    it('should set the manualSwitch properly and have it in correct type');
+    it('should write the correct value to database');
   });
   describe('#setTermostatSwitch()', function(){
-    it('should ');
+    it('should set the termostatSwitch properly and have it in correct type');
+    it('should write the correct value to database');
+  });
+});
+
+describe('Utility methods:', function(){
+  describe('#init()', function(){
+    it('should read the database if existing and initialise the Termostat object');
+    it('should initialise the Termostat object if no database present');
+    it('should always initialise the pins to an open state - even on errors');
+
+  });
+  describe('#close()', function(){
+    it('should close all pins before quitting');
+  });
+});
+
+describe('Event handling:', function(){
+  describe('#on temperature change', function(){
+    it('should emit an event upon temperature change');
+    it('should catch the event upon temperature change');
+  });
+  describe('#on humidity change', function(){
+    it('should emit an event upon humidity change');
+    it('should catch the event upon humidity change');
   });
 });
