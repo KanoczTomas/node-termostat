@@ -219,6 +219,9 @@ describe('Utility methods:', function(){
   describe('#close()', function(){
     it('should close all pins before quitting');
   });
+  describe('#sensorInit()', function(){
+    it('should check if sensor is reading the temperature and reset the process/sensor if no');
+  });
 });
 
 describe('Event handling:', function(){
@@ -231,3 +234,4 @@ describe('Event handling:', function(){
     it('should catch the event upon humidity change');
   });
 });
+

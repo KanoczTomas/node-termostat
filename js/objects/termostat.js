@@ -2,6 +2,7 @@ var TermostatModel = require('./../models/termostat');
 var EventEmitter = require('events').EventEmitter;
 var gpio = require('./gpio');
 var control = require('./control');
+var helpers = require('../utilities/helpers');
 
 function Termostat(){
   this.auto = false;
@@ -93,10 +94,6 @@ Termostat.prototype.close = function (){
   })
 };
 
-function variableChangeHelper(var1, var2){//return true if variable changed, else false
-  if(var1 === var2)return false;
-  return true;
-}
 
 
 Termostat.prototype.getMode = function(){
@@ -140,20 +137,11 @@ Termostat.prototype.getTermostatId = function(){
   return this._id;
 }
 
-function mongodbWriteHelper(object, varToSave){
-  TermostatModel.findById(object._id, function (err, doc){
-    doc[varToSave] = object[varToSave];
-    doc.save(function (err){
-      if(err) throw err;
-    });
-  });
-}
-
 Termostat.prototype.setMode = function(mode){
   if(mode === 'true') this.auto = true;
   else if(mode === 'false')this.auto = false;
   else return new Error('the atribute value is not in correct format');
-  mongodbWriteHelper(this,'auto');
+  helpers.mongodbWriteHelper(this,'auto');
   control(this);
 };
 Termostat.prototype.setTemperature = function(temperature){
@@ -161,25 +149,25 @@ Termostat.prototype.setTemperature = function(temperature){
 }
 Termostat.prototype.setTermostat = function(termostat){
   this.termostat = Number(termostat);
-  mongodbWriteHelper(this,'termostat');
+  helpers.mongodbWriteHelper(this,'termostat');
   control(this);
 }
 Termostat.prototype.setHysteresis = function(hysteresis){
   this.hysteresis = Number(hysteresis);
-  mongodbWriteHelper(this,'hysteresis');
+  helpers.mongodbWriteHelper(this,'hysteresis');
 }
 Termostat.prototype.setHumidity = function(humidity){
   this.humidity = Number(humidity);
 }
 Termostat.prototype.setManualSwitch = function(manualSwitch){
-  if(variableChangeHelper(this.manualSwitch, manualSwitch)){
+  if(helpers.variableChangeHelper(this.manualSwitch, manualSwitch)){
     if(typeof(manualSwitch) === 'boolean') this.manualSwitch = manualSwitch;
     else{
       if(manualSwitch === 'true') this.manualSwitch = true;
       else if(manualSwitch === 'false')this.manualSwitch = false;
       else return new Error('the atribute value is not in correct format');
     }
-    mongodbWriteHelper(this,'manualSwitch');
+    helpers.mongodbWriteHelper(this,'manualSwitch');
     gpio.write(this.manualSwitchPin, this.manualSwitch);
   }
 //  if(manualSwitch === 'true') manualSwitch = true;
@@ -193,7 +181,7 @@ Termostat.prototype.setManualSwitch = function(manualSwitch){
 }
 
 Termostat.prototype.setTermostatSwitch = function(termostatSwitch){
-  if(variableChangeHelper(this.termostatSwitch,termostatSwitch)){
+  if(helpers.variableChangeHelper(this.termostatSwitch,termostatSwitch)){
     console.log('this is inside set: ' + termostatSwitch);
     if(typeof(termostatSwitch) === 'boolean') this.termostatSwitch = termostatSwitch;
     else{
@@ -201,7 +189,7 @@ Termostat.prototype.setTermostatSwitch = function(termostatSwitch){
     else if(termostatSwitch === 'false')this.termostatSwitch = false;
     else console.error( new Error('the atribute value is not in correct format'));
     }
-    mongodbWriteHelper(this,'termostatSwitch');
+    helpers.mongodbWriteHelper(this,'termostatSwitch');
     gpio.write(this.termostatSwitchPin, this.termostatSwitch);
   }
 }
