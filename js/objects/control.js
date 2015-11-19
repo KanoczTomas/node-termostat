@@ -10,7 +10,7 @@ module.exports = function(object){
       object.flipable = 0;
       object.setTermostatSwitch(false);
     }
-    else if((treshold - temp < 0) && (flipable === 1)){
+    else if((treshold - temp < 0) && (object.flipable === 1)){
       object.flipable = 0;
       object.setTermostatSwitch(true);
     }

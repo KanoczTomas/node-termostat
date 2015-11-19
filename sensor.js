@@ -1,21 +1,24 @@
-var sensorLib = require('node-dht-sensor');
+var sleep = require('sleep');
+var min = 22.0;
+var max = 25.0;
+var temp = min;
+var step = 0.1;
+var operation = '+';
 
-var sensor = {
-    initialize: function () {
-        return sensorLib.initialize(22, 4);
-    },
-    read: function () {
-        var readout = sensorLib.read();
-        console.log(readout.temperature.toFixed(2) + ',' +
-            readout.humidity.toFixed(2));
-        setTimeout(function () {
-            sensor.read();
-        }, 2000);
-    }
-};
-
-if (sensor.initialize()) {
-    sensor.read();
-} else {
-    console.warn('Failed to initialize sensor');
+function simulate(temp, operation){
+  if(operation === '-') temp -= step;
+  else if(operation === '+') temp += step;
+  return Number(temp.toFixed(2));
 }
+
+function iterate(){
+  while(1){
+    if(temp > max) operation = '-';
+    else if(temp < min) operation = '+';
+    temp = simulate(temp,operation);
+    console.log(temp + ',' + step);
+    sleep.sleep(2);
+  }
+}
+
+iterate();

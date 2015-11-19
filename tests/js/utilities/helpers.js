@@ -43,9 +43,10 @@ describe('Utility functions:', function(){
     it('should write the database correctly', function(done){
       TermostatModel.find({}, function(err, out){
         should.not.exist(err);
+	should.exist(out);
 	out.length.should.be.equal(1);
 	termostat._id = out._id;
-	out.auto.should.be.true();
+	out[0].auto.should.be.true();
 	done();
       });
     });
@@ -59,11 +60,10 @@ describe('Utility functions:', function(){
           done();
         })
       })
-      .done(done);
+      .done(null,done);
       after(function(){
-        console.log('todo');
-        //TermostatModel.remove();
-        //mongoose.connection.db.dropDatabase();
+        TermostatModel.remove();
+        mongoose.connection.db.dropDatabase();
       });
     });
   });
