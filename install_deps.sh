@@ -7,7 +7,7 @@ sudo rpi-update
 echo *** installing nodejs
 wget http://node-arm.herokuapp.com/node_latest_armhf.deb
 sudo dpkg -i node_latest_armhf.deb
-echo "http://vorboss.dl.sourceforge.net/project/webiopi/WebIOPi-0.7.1.tar.gz">
+echo "http://vorboss.dl.sourceforge.net/project/webiopi/WebIOPi-0.7.1.tar.gz"
 echo installing quickwire-gpio-admin
 cd dependencies
 tar xvf quick2wire-gpio-admin.tar.gz
